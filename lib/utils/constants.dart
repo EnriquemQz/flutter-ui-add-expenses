@@ -29,4 +29,11 @@ class Constants {
     color: Colors.green,
     borderRadius: BorderRadius.circular(25.0)
   );
+
+  static BoxDecoration bsCategory = BoxDecoration(
+    border: Border.all(
+      color: Colors.grey 
+    ),
+    borderRadius: BorderRadius.circular(20.0)
+  );
 }

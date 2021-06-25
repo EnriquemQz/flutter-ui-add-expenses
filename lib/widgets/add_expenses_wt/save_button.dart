@@ -9,7 +9,7 @@ class SaveButton extends StatelessWidget {
       backgroundColor: Colors.green,
       radius: 35.0,
       child: CircleAvatar(
-        backgroundColor: Colors.grey[850],
+        backgroundColor: Colors.grey[900],
         radius: 34.0,
         child: Icon(
           Icons.done_outline,

@@ -1,7 +1,9 @@
+import 'package:expenses_app/models/combined_model.dart';
 import 'package:flutter/material.dart';
 
 class CommentBox extends StatefulWidget {
-  CommentBox({Key key}) : super(key: key);
+  final CombinedModel cModel;
+  CommentBox({Key key, @required this.cModel}) : super(key: key);
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
@@ -9,6 +11,13 @@ class CommentBox extends StatefulWidget {
 
 class _CommentBoxState extends State<CommentBox> {
   String _text = '';
+
+  @override
+  void initState() {
+    _text = widget.cModel.comment;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

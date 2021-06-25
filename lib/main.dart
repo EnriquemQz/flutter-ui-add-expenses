@@ -1,6 +1,7 @@
 import 'package:expenses_app/pages/add_entries.dart';
 import 'package:expenses_app/pages/add_expenses.dart';
 import 'package:expenses_app/pages/home_page.dart';
+import 'package:expenses_app/providers/expenses_provider.dart';
 import 'package:expenses_app/providers/ui_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UiProvider())
+        ChangeNotifierProvider(create: (_) => UiProvider()),
+        ChangeNotifierProvider(create: (_) => ExpensesProvider()),
       ],
       child: MaterialApp(
         title: 'Expenses_app',
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         routes: {
           'home'        : (_) => HomePage(),
           'add_entries' : (_) => AddEntries(),
-          'add_expenses': (_) => AddExpenses()
+          'add_expenses': (_) => AddExpenses(),
         },
       ),
     );

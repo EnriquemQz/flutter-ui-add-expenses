@@ -1,3 +1,6 @@
+import 'package:expenses_app/models/combined_model.dart';
+import 'package:expenses_app/widgets/add_expenses_wt/bs_category.dart';
+import 'package:expenses_app/widgets/add_expenses_wt/date_selector.dart';
 import 'package:expenses_app/widgets/add_expenses_wt/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/widgets/add_expenses_wt/bs_number.dart';
@@ -11,6 +14,8 @@ class AddExpenses extends StatefulWidget {
 }
 
 class _AddExpensesState extends State<AddExpenses> {
+  CombinedModel _cModel = new CombinedModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +23,14 @@ class _AddExpensesState extends State<AddExpenses> {
         title: Text('Agregar Gastos'),
         centerTitle : false,
       ),
-      body: FormOfExpenses(),
+      body: FormOfExpenses(cModel: _cModel),
     );
   }
 }
 
 class FormOfExpenses extends StatefulWidget {
-  FormOfExpenses({Key key}) : super(key: key);
+  final CombinedModel cModel;
+  FormOfExpenses({this.cModel});
 
   @override
   _FormOfExpensesState createState() => _FormOfExpensesState();
@@ -33,13 +39,15 @@ class FormOfExpenses extends StatefulWidget {
 class _FormOfExpensesState extends State<FormOfExpenses> {
   @override
   Widget build(BuildContext context) {
+    CombinedModel _cModel = widget.cModel;
+
     Size size = MediaQuery.of(context).size;
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       children: [
         Padding(
           padding: const EdgeInsets.all(18.0),
-          child: BottomSheetNumber(),
+          child: BottomSheetNumber(cModel: _cModel),
         ),
         Container(
           padding: EdgeInsets.all(18.0),
@@ -53,11 +61,11 @@ class _FormOfExpensesState extends State<FormOfExpenses> {
           ),
           child: Column(
             children: [
-              CommentBox(),
-              Expanded(
-                flex: 3,
-                child: SaveButton()
-              )
+              DateSelector(cModel: _cModel),
+              BottomSheetCategory(cModel: _cModel),
+              SizedBox(height: 16.0),
+              CommentBox(cModel: _cModel),
+              Expanded(flex: 3, child: SaveButton()),
             ],
           ),
         )

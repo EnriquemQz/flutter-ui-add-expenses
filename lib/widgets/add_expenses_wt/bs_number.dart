@@ -1,8 +1,10 @@
+import 'package:expenses_app/models/combined_model.dart';
 import 'package:expenses_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetNumber extends StatefulWidget {
-  BottomSheetNumber({Key key}) : super(key: key);
+  final CombinedModel cModel;
+  BottomSheetNumber({Key key, this.cModel}) : super(key: key);
 
   @override
   _BottomSheetNumberState createState() => _BottomSheetNumberState();
@@ -13,6 +15,12 @@ class _BottomSheetNumberState extends State<BottomSheetNumber> {
   Function mathFunc = (Match match) => '${match[1]},';
 
   String import = '0.00';
+  
+  @override
+  void initState() {
+    import = widget.cModel.expense.toStringAsFixed(2);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +158,7 @@ class _BottomSheetNumberState extends State<BottomSheetNumber> {
                               behavior: HitTestBehavior.opaque,
                               onTap: (){
                                 setState(() {
-                                  import = '0.00';
+                                  import = widget.cModel.expense.toStringAsFixed(2);
                                   Navigator.pop(context);
                                 });
                               },

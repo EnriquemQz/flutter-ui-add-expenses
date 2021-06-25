@@ -2,6 +2,7 @@
 import 'package:expenses_app/pages/balance_page.dart';
 import 'package:expenses_app/pages/charts_page.dart';
 import 'package:expenses_app/pages/setting_page.dart';
+import 'package:expenses_app/providers/expenses_provider.dart';
 import 'package:expenses_app/providers/ui_provider.dart';
 import 'package:expenses_app/widgets/home_page_wt/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,14 @@ class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiProvider>(context);
+    final exProvider = Provider.of<ExpensesProvider>(context, listen: false);
+    
 
     final currentIndex = uiProvider.selectedMenu;
 
     switch(currentIndex){
       case 0:
+        exProvider.callCatListJson();
         return BalancePage();
       case 1:
         return ChartsPage();
