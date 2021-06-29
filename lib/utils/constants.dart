@@ -36,4 +36,10 @@ class Constants {
     ),
     borderRadius: BorderRadius.circular(20.0)
   );
+
+  static RoundedRectangleBorder bottomSheet = RoundedRectangleBorder(
+    borderRadius: BorderRadius.vertical(
+      top: Radius.circular(25.0)
+    )
+  );
 }

@@ -81,7 +81,8 @@ class _DateSelectorState extends State<DateSelector> {
     
     datePicker(BuildContext context){
       showDatePicker(
-        context: context, 
+        context: context,
+        locale: const Locale('es', "ES"),
         initialDate: myDate.subtract(Duration(hours: 24 * 2)), 
         firstDate: myDate.subtract(Duration(hours: 24 * 30)),
         lastDate: myDate.subtract(Duration(hours: 24 * 2)), 

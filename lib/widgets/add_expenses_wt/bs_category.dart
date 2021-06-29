@@ -1,11 +1,15 @@
+
+import 'package:expenses_app/utils/constants.dart';
+import 'package:expenses_app/widgets/add_expenses_wt/bs_add_category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:expenses_app/models/category_list_json.dart';
+import 'package:expenses_app/models/features_model.dart';
 import 'package:expenses_app/models/combined_model.dart';
 import 'package:expenses_app/providers/expenses_provider.dart';
-import 'package:expenses_app/utils/constants.dart';
 import 'package:expenses_app/utils/utils.dart';
+
+import 'bs_admin_category.dart';
 
 class BottomSheetCategory extends StatefulWidget {
   final CombinedModel cModel;
@@ -20,20 +24,28 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
   @override
   Widget build(BuildContext context) {
     final exProvider = Provider.of<ExpensesProvider>(context);
-    final catJsonList = exProvider.cListJson;
+    final features = exProvider.features;
+
+    if(features.isEmpty){
+      exProvider.callCatListJson();
+      final jsonList = exProvider.cListJson;
+      jsonList.forEach((e) { 
+        exProvider.addNewFeature(e.category, e.color, e.icon);
+      });
+      print('Categorías');
+    }
+
     Size size = MediaQuery.of(context).size;
 
     if(widget.cModel.category != 'Selecciona Categoría'){
       hasData = true;
     }
-
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Icon(Icons.category_outlined, size: 35.0),
         GestureDetector(
-          onTap: () => _categorySelected(size, catJsonList ),
+          onTap: () => _categorySelected(size, features ),
           child: Container(
             width: size.width / 1.5,
             decoration: BoxDecoration(
@@ -56,7 +68,7 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
     );
   }
 
-  _categorySelected(Size size, List<CategoryListJson> catJsonList){
+  _categorySelected(Size size, List<FeaturesModel> features){
 
     void _categoryName(String category, String color){
       setState(() {
@@ -70,22 +82,22 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
       ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: catJsonList.length,
+        itemCount: features.length,
         itemBuilder: (_, i)=> ListTile(
           leading: Icon(
-            catJsonList[i].icon.toIcon(),
+            features[i].icon.toIcon(),
             size: 35.0,
-            color: catJsonList[i].color.toColor(),
+            color: features[i].color.toColor(),
           ),
-          title: Text(catJsonList[i].category),
+          title: Text(features[i].category),
           trailing: Icon(
             Icons.arrow_forward_ios_outlined,
             size: 16.0,
           ),
           onTap: (){
             _categoryName(
-              catJsonList[i].category,
-              catJsonList[i].color
+              features[i].category,
+              features[i].color
             );
           },
         )
@@ -99,6 +111,7 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
         trailing: Icon(Icons.arrow_forward_ios_outlined, size: 16.0),
         onTap: (){
           Navigator.pop(context);
+          _addNewCategory();
         },
       ),
       ListTile(
@@ -107,12 +120,10 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
         trailing: Icon(Icons.arrow_forward_ios_outlined, size: 16.0),
         onTap: (){
           Navigator.pop(context);
+          _adminCategory();
         },
       )
     ];
-
-    
-
 
     showModalBottomSheet(
       isScrollControlled: true,
@@ -132,6 +143,23 @@ class _BottomSheetCategoryState extends State<BottomSheetCategory> {
           ),
         );
       }
+    );
+  }
+  
+  _addNewCategory(){
+
+    showModalBottomSheet(
+      shape: Constants.bottomSheet,
+      context: context,
+      builder: (_) => AddNewCategory()
+    );
+  }
+
+  _adminCategory(){
+    showModalBottomSheet(
+      shape: Constants.bottomSheet,
+      context: context, 
+      builder: (_)=> BSAdminCategory()
     );
   }
 }
